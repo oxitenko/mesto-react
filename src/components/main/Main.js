@@ -1,4 +1,22 @@
+import { useEffect, useState } from "react";
+import api from "../../utils/Api";
+
 function Main(props) {
+  const [userName, setUserName] = useState("");
+  const [userDescription, setUserDescription] = useState("");
+  const [userAvatar, setUserAvatar] = useState("");
+
+  useEffect(() => {
+    api
+      .getUserInfo()
+      .then((res) => {
+        setUserName(res.name);
+        setUserDescription(res.about);
+        setUserAvatar(res.avatar);
+      })
+      .catch((err) => console.log(err));
+  });
+
   return (
     <main>
       <section className="profile">
@@ -7,17 +25,21 @@ function Main(props) {
           href="#avatar"
           onClick={props.onEditAvatar}
         >
-          <img className="profile__avatar" src="/" alt="Аватар страницы" />
+          <img
+            src={userAvatar}
+            className="profile__avatar"
+            alt="Аватар страницы"
+          />
         </a>
         <div className="profile__item">
-          <h1 className="profile__name">Hideo Kolima</h1>
+          <h1 className="profile__name">{userName}</h1>
           <button
             className="profile__button-edit"
             type="button"
             aria-label="Редактировать профиль"
             onClick={props.onEditProfile}
           ></button>
-          <p className="profile__profi">Game developer</p>
+          <p className="profile__profi">{userDescription}</p>
         </div>
         <button
           className="profile__button-add"
