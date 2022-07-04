@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import api from "../../utils/Api";
+import Card from "../card/Card";
 
 function Main(props) {
   const [userName, setUserName] = useState("");
   const [userDescription, setUserDescription] = useState("");
   const [userAvatar, setUserAvatar] = useState("");
+  const [cards, setCards] = useState([]);
 
   useEffect(() => {
     api
@@ -15,7 +17,16 @@ function Main(props) {
         setUserAvatar(res.avatar);
       })
       .catch((err) => console.log(err));
-  });
+  }, []);
+
+  useEffect(() => {
+    api
+      .getCards()
+      .then((res) => {
+        setCards(res);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   return (
     <main>
@@ -49,7 +60,17 @@ function Main(props) {
         ></button>
       </section>
       <section className="elements">
-        <ul className="elements__container"></ul>
+        <ul className="elements__container">
+          {cards.map((item) => {
+            return (
+              <Card
+                key={item._id}
+                card={item}
+                onCardClick={props.onCardClick}
+              />
+            );
+          })}
+        </ul>
       </section>
     </main>
   );

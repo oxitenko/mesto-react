@@ -4,12 +4,16 @@ import Footer from "../footer/Footer";
 import PopupWithForm from "../popupwithform/PopupWithForm";
 import ImagePopup from "../imagepopup/ImagePopup";
 import { useState } from "react";
-import api from "../../utils/Api";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [selectedCard, setSelectedCard] = useState({});
+
+  function handleCardClick(card) {
+    setSelectedCard(card);
+  }
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -27,6 +31,7 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
+    setSelectedCard({});
   }
 
   return (
@@ -36,6 +41,7 @@ function App() {
         onEditProfile={handleEditProfileClick}
         onAddPlace={handleAddPlaceClick}
         onEditAvatar={handleEditAvatarClick}
+        onCardClick={handleCardClick}
       />
       <Footer />
       <PopupWithForm
@@ -134,29 +140,7 @@ function App() {
         button="Да"
       ></PopupWithForm>
 
-      <ImagePopup />
-
-      <template className="template__card">
-        <li className="card">
-          <img className="card__pic" src="/" alt="/" />
-          <button
-            className="card__trashbox"
-            type="button"
-            aria-label="Удалить"
-          ></button>
-          <div className="card__head">
-            <h2 className="card__title"></h2>
-            <div className="card__container">
-              <button
-                className="card__like"
-                type="button"
-                aria-label="Лайк"
-              ></button>
-              <span className="card__counter"></span>
-            </div>
-          </div>
-        </li>
-      </template>
+      <ImagePopup card={selectedCard} onClose={closeAllPopups} />
     </div>
   );
 }
