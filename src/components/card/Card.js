@@ -1,6 +1,27 @@
+import { useContext } from "react";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
+
 function Card(props) {
+  const value = useContext(CurrentUserContext);
+  const isOwn = props.card.owner._id === value._id;
+  const cardDeleteButtonClassName = `card__trashbox ${
+    isOwn ? "card__trashbox_visible" : "card__trashbox_hidden"
+  }`;
+  const isLiked = props.card.likes.some((i) => i._id === value._id);
+  const cardLikeButtonClassName = `card__like ${
+    isLiked && "card__like_active"
+  }`;
+
   function handleClick() {
     props.onCardClick(props.card);
+  }
+
+  function handleLikeClick() {
+    props.onCardLike(props.card);
+  }
+
+  function handleDeleteClick() {
+    props.onCardDelete(props.card);
   }
 
   return (
@@ -12,17 +33,19 @@ function Card(props) {
         onClick={handleClick}
       />
       <button
-        className="card__trashbox"
+        className={cardDeleteButtonClassName}
         type="button"
         aria-label="Удалить"
+        onClick={handleDeleteClick}
       ></button>
       <div className="card__head">
         <h2 className="card__title">{props.card.name}</h2>
         <div className="card__container">
           <button
-            className="card__like"
+            className={cardLikeButtonClassName}
             type="button"
             aria-label="Лайк"
+            onClick={handleLikeClick}
           ></button>
           <span className="card__counter">{props.card.likes.length}</span>
         </div>

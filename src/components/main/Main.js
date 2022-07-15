@@ -1,23 +1,40 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import api from "../../utils/Api";
 import Card from "../card/Card";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Main(props) {
-  const [userName, setUserName] = useState("");
-  const [userDescription, setUserDescription] = useState("");
-  const [userAvatar, setUserAvatar] = useState("");
   const [cards, setCards] = useState([]);
+  const value = useContext(CurrentUserContext);
 
-  useEffect(() => {
+  function handleCardLike(card) {
+    const isLiked = card.likes.some((i) => i._id === value._id);
+    if (!isLiked) {
+      api
+        .likeCard(card)
+        .then((res) => {
+          setCards((state) => state.map((c) => (c._id === card._id ? res : c)));
+        })
+        .catch((err) => console.log(err));
+    }
+    if (isLiked) {
+      api
+        .deleteLike(card)
+        .then((res) => {
+          setCards((state) => state.map((c) => (c._id === card._id ? res : c)));
+        })
+        .catch((err) => console.log(err));
+    }
+  }
+
+  function handleCardDelete(card) {
     api
-      .getUserInfo()
+      .deleteCard(card)
       .then((res) => {
-        setUserName(res.name);
-        setUserDescription(res.about);
-        setUserAvatar(res.avatar);
+        setCards((state) => state.filter((d) => d._id !== card._id && res));
       })
       .catch((err) => console.log(err));
-  }, []);
+  }
 
   useEffect(() => {
     api
@@ -37,20 +54,20 @@ function Main(props) {
           onClick={props.onEditAvatar}
         >
           <img
-            src={userAvatar}
+            src={value.avatar}
             className="profile__avatar"
             alt="Аватар страницы"
           />
         </a>
         <div className="profile__item">
-          <h1 className="profile__name">{userName}</h1>
+          <h1 className="profile__name">{value.name}</h1>
           <button
             className="profile__button-edit"
             type="button"
             aria-label="Редактировать профиль"
             onClick={props.onEditProfile}
           ></button>
-          <p className="profile__profi">{userDescription}</p>
+          <p className="profile__profi">{value.about}</p>
         </div>
         <button
           className="profile__button-add"
@@ -67,6 +84,8 @@ function Main(props) {
                 key={item._id}
                 card={item}
                 onCardClick={props.onCardClick}
+                onCardLike={handleCardLike}
+                onCardDelete={handleCardDelete}
               />
             );
           })}

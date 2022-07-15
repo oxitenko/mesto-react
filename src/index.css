@@ -43,5 +43,7 @@
 @import url(../src/blocks/card/__pic/card__pic.css);
 @import url(../src/blocks/card/__title/card__title.css);
 @import url(../src/blocks/card/__trashbox/card__trashbox.css);
+@import url(../src/blocks/card/__trashbox/_visible/card__trashbox_visible.css);
+@import url(../src/blocks/card/__trashbox/_hidden/card__trashbox_hidden.css);
 @import url(../src/blocks/card/__container/card__container.css);
 @import url(../src/blocks/card/__counter/card__counter.css);
