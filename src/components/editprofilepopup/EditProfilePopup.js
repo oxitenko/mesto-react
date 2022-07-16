@@ -15,6 +15,14 @@ function EditProfilePopup(props) {
     setDescription(e.target.value);
   }
 
+  function handleSubmit(e) {
+    e.preventDefault();
+    props.onUpdateUser({
+      name,
+      about: description,
+    });
+  }
+
   useEffect(() => {
     setName(value.name);
     setDescription(value.about);
@@ -27,6 +35,7 @@ function EditProfilePopup(props) {
       button="Сохранить"
       onClose={props.onClose}
       isOpen={props.isOpen}
+      onSubmit={handleSubmit}
     >
       <div className="popup__input-container">
         <input
@@ -50,7 +59,7 @@ function EditProfilePopup(props) {
           onChange={handleChangeDescription}
           className="popup__input popup__input_enter_job"
           type="text"
-          name="profi"
+          name="description"
           id="profi-input"
           placeholder="О себе"
           minLength="2"

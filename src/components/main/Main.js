@@ -1,49 +1,9 @@
-import { useEffect, useState, useContext } from "react";
-import api from "../../utils/Api";
+import { useContext } from "react";
 import Card from "../card/Card";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Main(props) {
-  const [cards, setCards] = useState([]);
   const value = useContext(CurrentUserContext);
-
-  function handleCardLike(card) {
-    const isLiked = card.likes.some((i) => i._id === value._id);
-    if (!isLiked) {
-      api
-        .likeCard(card)
-        .then((res) => {
-          setCards((state) => state.map((c) => (c._id === card._id ? res : c)));
-        })
-        .catch((err) => console.log(err));
-    }
-    if (isLiked) {
-      api
-        .deleteLike(card)
-        .then((res) => {
-          setCards((state) => state.map((c) => (c._id === card._id ? res : c)));
-        })
-        .catch((err) => console.log(err));
-    }
-  }
-
-  function handleCardDelete(card) {
-    api
-      .deleteCard(card)
-      .then((res) => {
-        setCards((state) => state.filter((d) => d._id !== card._id && res));
-      })
-      .catch((err) => console.log(err));
-  }
-
-  useEffect(() => {
-    api
-      .getCards()
-      .then((res) => {
-        setCards(res);
-      })
-      .catch((err) => console.log(err));
-  }, []);
 
   return (
     <main>
@@ -78,14 +38,14 @@ function Main(props) {
       </section>
       <section className="elements">
         <ul className="elements__container">
-          {cards.map((item) => {
+          {props.cards.map((item) => {
             return (
               <Card
                 key={item._id}
                 card={item}
                 onCardClick={props.onCardClick}
-                onCardLike={handleCardLike}
-                onCardDelete={handleCardDelete}
+                onCardLike={props.onCardLike}
+                onCardDelete={props.onCardDelete}
               />
             );
           })}

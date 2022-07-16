@@ -27,8 +27,8 @@ class Api {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify({
-        name: data.placename,
-        link: data.linkplace,
+        name: data.name,
+        link: data.link,
       }),
     }).then(this._confirmStatusOk);
   }
@@ -46,7 +46,7 @@ class Api {
       headers: this._headers,
       body: JSON.stringify({
         name: data.name,
-        about: data.profi,
+        about: data.about,
       }),
     }).then(this._confirmStatusOk);
   }
