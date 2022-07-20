@@ -1,14 +1,14 @@
-import Header from "../header/Header";
-import Main from "../main/Main";
-import Footer from "../footer/Footer";
-import PopupWithForm from "../popupWithForm/PopupWithForm";
-import ImagePopup from "../imagePopup/ImagePopup";
+import Header from "../Header/Header";
+import Main from "../Main/Main";
+import Footer from "../Footer/Footer";
+import PopupWithForm from "../PopupWithForm/PopupWithForm";
+import ImagePopup from "../ImagePopup/ImagePopup";
 import { useEffect, useState } from "react";
 import api from "../../utils/Api";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
-import EditProfilePopup from "../editProfilePopup/EditProfilePopup";
-import EditAvatarPopup from "../editAvatarPopup/EditAvatarPopup";
-import AddPlacePopup from "../addPlacePopup/AddPlacePopup";
+import EditProfilePopup from "../EditProfilePopup/EditProfilePopup";
+import EditAvatarPopup from "../EditAvatarPopup/EditAvatarPopup";
+import AddPlacePopup from "../AddPlacePopup/AddPlacePopup";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
