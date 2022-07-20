@@ -1,22 +1,23 @@
 import Header from "../header/Header";
 import Main from "../main/Main";
 import Footer from "../footer/Footer";
-import PopupWithForm from "../popupwithform/PopupWithForm";
-import ImagePopup from "../imagepopup/ImagePopup";
+import PopupWithForm from "../popupWithForm/PopupWithForm";
+import ImagePopup from "../imagePopup/ImagePopup";
 import { useEffect, useState } from "react";
 import api from "../../utils/Api";
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import EditProfilePopup from "../editprofilepopup/EditProfilePopup";
-import EditAvatarPopup from "../editavatarpopup/EditAvatarPopup";
-import AddPlacePopup from "../addplacepopup/AddPlacePopup";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import EditProfilePopup from "../editProfilePopup/EditProfilePopup";
+import EditAvatarPopup from "../editAvatarPopup/EditAvatarPopup";
+import AddPlacePopup from "../addPlacePopup/AddPlacePopup";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
-  const [currentUser, setCurrentUser] = useState("");
+  const [currentUser, setCurrentUser] = useState({ name: "", about: "" });
   const [cards, setCards] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     api
@@ -51,19 +52,27 @@ function App() {
   }
 
   function handleUpdateUser(data) {
+    setIsLoading(true);
     api
       .editUserInfo(data)
-      .then((res) => setCurrentUser(res))
-      .catch((err) => console.log(err));
-    closeAllPopups();
+      .then((res) => {
+        setCurrentUser(res);
+        closeAllPopups();
+      })
+      .catch((err) => console.log(err))
+      .finally(() => setIsLoading(false));
   }
 
   function handleUpdateAvatar(data) {
+    setIsLoading(true);
     api
       .editUserAvatar(data)
-      .then((res) => setCurrentUser(res))
-      .catch((err) => console.log(err));
-    closeAllPopups();
+      .then((res) => {
+        setCurrentUser(res);
+        closeAllPopups();
+      })
+      .catch((err) => console.log(err))
+      .finally(() => setIsLoading(false));
   }
 
   function closeAllPopups() {
@@ -103,14 +112,35 @@ function App() {
   }
 
   function handleAddPlaceSubmit(data) {
+    setIsLoading(true);
     api
       .postNewCard(data)
       .then((res) => {
         setCards([res, ...cards]);
+        closeAllPopups();
       })
-      .catch((err) => console.log(err));
-    closeAllPopups();
+      .catch((err) => console.log(err))
+      .finally(() => setIsLoading(false));
   }
+  const isOpen =
+    isEditAvatarPopupOpen ||
+    isEditProfilePopupOpen ||
+    isAddPlacePopupOpen ||
+    selectedCard.link;
+
+  useEffect(() => {
+    function closeByEscape(evt) {
+      if (evt.key === "Escape") {
+        closeAllPopups();
+      }
+    }
+    if (isOpen) {
+      document.addEventListener("keydown", closeByEscape);
+      return () => {
+        document.removeEventListener("keydown", closeByEscape);
+      };
+    }
+  }, [isOpen]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -131,18 +161,21 @@ function App() {
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
+          buttonText={isLoading}
         />
 
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
+          buttonText={isLoading}
         />
 
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           onAddPlace={handleAddPlaceSubmit}
+          buttonText={isLoading}
         />
 
         <PopupWithForm
