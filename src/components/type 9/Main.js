@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import Card from "../Card/Card";
+import Card from "../type3/Card";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 function Main(props) {

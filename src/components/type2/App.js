@@ -1,13 +1,13 @@
-import Header from "../Header/Header";
-import Main from "../Main/Main";
-import Footer from "../Footer/Footer";
-import PopupWithForm from "../PopupWithForm/PopupWithForm";
-import ImagePopup from "../ImagePopup/ImagePopup";
+import Header from "../type 7/Header";
+import Main from "../type 9/Main";
+import Footer from "../type 6/Footer";
+import PopupWithForm from "../type 10/PopupWithForm";
+import ImagePopup from "../type 8/ImagePopup";
 import { useEffect, useState } from "react";
 import api from "../../utils/Api";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
-import EditProfilePopup from "../EditProfilePopup/EditProfilePopup";
-import EditAvatarPopup from "../EditAvatarPopup/EditAvatarPopup";
+import EditProfilePopup from "../type 5/EditProfilePopup";
+import EditAvatarPopup from "../type4/EditAvatarPopup";
 import AddPlacePopup from "../AddPlacePopup/AddPlacePopup";
 
 function App() {
