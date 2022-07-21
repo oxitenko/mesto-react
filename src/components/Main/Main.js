@@ -3,7 +3,7 @@ import Card from "../Card/Card";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 function Main(props) {
-  const value = useContext(CurrentUserContext);
+  const currentUser = useContext(CurrentUserContext);
 
   return (
     <main>
@@ -14,20 +14,20 @@ function Main(props) {
           onClick={props.onEditAvatar}
         >
           <img
-            src={value.avatar}
+            src={currentUser.avatar}
             className="profile__avatar"
             alt="Аватар страницы"
           />
         </a>
         <div className="profile__item">
-          <h1 className="profile__name">{value.name}</h1>
+          <h1 className="profile__name">{currentUser.name}</h1>
           <button
             className="profile__button-edit"
             type="button"
             aria-label="Редактировать профиль"
             onClick={props.onEditProfile}
           ></button>
-          <p className="profile__profi">{value.about}</p>
+          <p className="profile__profi">{currentUser.about}</p>
         </div>
         <button
           className="profile__button-add"

@@ -2,28 +2,28 @@ import { useState, useEffect } from "react";
 import PopupWithForm from "../PopupWithForm/PopupWithForm";
 
 function AddPlacePopup(props) {
-  const [placename, setPlacename] = useState("");
-  const [linkplace, setLinkplace] = useState("");
+  const [placeName, setPlaceName] = useState("");
+  const [linkPlace, setLinkPlace] = useState("");
 
   function onChangePlaceName(e) {
-    setPlacename(e.target.value);
+    setPlaceName(e.target.value);
   }
 
   function onChangeLinkPlace(e) {
-    setLinkplace(e.target.value);
+    setLinkPlace(e.target.value);
   }
 
   function handleSubmit(e) {
     e.preventDefault();
     props.onAddPlace({
-      name: placename,
-      link: linkplace,
+      name: placeName,
+      link: linkPlace,
     });
   }
 
   useEffect(() => {
-    setPlacename("");
-    setLinkplace("");
+    setPlaceName("");
+    setLinkPlace("");
   }, [props.isOpen]);
 
   return (
@@ -37,7 +37,7 @@ function AddPlacePopup(props) {
     >
       <div className="popup__input-container">
         <input
-          value={placename}
+          value={placeName}
           onChange={onChangePlaceName}
           className="popup__input popup__input_enter_placename"
           type="text"
@@ -51,7 +51,7 @@ function AddPlacePopup(props) {
 
       <div className="popup__input-container">
         <input
-          value={linkplace}
+          value={linkPlace}
           onChange={onChangeLinkPlace}
           className="popup__input popup__input_enter_linkplace"
           type="url"
