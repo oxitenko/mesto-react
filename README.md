@@ -1,4 +1,5 @@
 # Проект Место React
+Ссылка на GH Pages: https://oxitenko.github.io/mesto-react/ 
 
  Перенос [Проекта Место](https://github.com/oxitenko/mesto) на React.
 
